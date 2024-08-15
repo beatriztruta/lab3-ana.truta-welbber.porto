@@ -1,7 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-public class FileSimilarity {
+public class FileSimilarityConcorrent {
+
+    static Map<String, List<Long>> fileFingerprints = new HashMap<>();
+
+    public synchronized static void addNewFileMap(String path, List<Long> listCount){
+        fileFingerprints.put(path, listCount);
+    }
 
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
@@ -9,16 +15,24 @@ public class FileSimilarity {
             System.exit(1);
         }
         long timetemp = System.currentTimeMillis();
-        
+
         // Create a map to store the fingerprint for each file
-        Map<String, List<Long>> fileFingerprints = new HashMap<>();
+        //Map<String, List<Long>> fileFingerprints = new HashMap<>();
+
+        List<SumThread> sumThreadList = new ArrayList<>();
 
         // Calculate the fingerprint for each file
         for (String path : args) {
-            List<Long> fingerprint = fileSum(path);
-            fileFingerprints.put(path, fingerprint);
+            SumThread sumThread = new SumThread(path);
+            sumThread.start();
+            sumThreadList.add(sumThread);
         }
-        System.out.println("Tempo 1: " + (timetemp - System.currentTimeMillis()));
+        System.out.println("Tempo 1: " + (System.currentTimeMillis() - (timetemp)));
+
+        for(SumThread sumThread : sumThreadList) {
+            sumThread.join();
+        }
+
         // Compare each pair of files
         for (int i = 0; i < args.length; i++) {
             for (int j = i + 1; j < args.length; j++) {
@@ -30,7 +44,26 @@ public class FileSimilarity {
                 System.out.println("Similarity between " + file1 + " and " + file2 + ": " + (similarityScore * 100) + "%");
             }
         }
-        System.out.println("Tempo 2: " + (timetemp - System.currentTimeMillis()));
+        System.out.println("Tempo 2: " + (System.currentTimeMillis() - (timetemp)));
+    }
+
+    static class SumThread extends Thread {
+
+        private final String filePath;
+
+        public SumThread(String filePath){
+            this.filePath = filePath;
+        }
+
+        @Override
+        public void run(){
+            try {
+                addNewFileMap(this.filePath, fileSum(filePath));
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private static List<Long> fileSum(String filePath) throws IOException {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/2024.1/lab1/lab1.iml" filepath="$PROJECT_DIR$/2024.1/lab1/lab1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/2024.1/lab2/lab2.iml" filepath="$PROJECT_DIR$/2024.1/lab2/lab2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/2024.1/lab3/lab3.iml" filepath="$PROJECT_DIR$/2024.1/lab3/lab3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lab3-ana.truta-welbber.porto.iml" filepath="$PROJECT_DIR$/.idea/lab3-ana.truta-welbber.porto.iml" />
+    </modules>
+  </component>
+</project>
