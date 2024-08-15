@@ -18,7 +18,7 @@ public class FileSimilarity {
             List<Long> fingerprint = fileSum(path);
             fileFingerprints.put(path, fingerprint);
         }
-        System.out.println("Tempo 1: " + (timetemp - System.currentTimeMillis()));
+        System.out.println("Tempo 1: " + (System.currentTimeMillis() - (timetemp)));
         // Compare each pair of files
         for (int i = 0; i < args.length; i++) {
             for (int j = i + 1; j < args.length; j++) {
@@ -30,7 +30,7 @@ public class FileSimilarity {
                 System.out.println("Similarity between " + file1 + " and " + file2 + ": " + (similarityScore * 100) + "%");
             }
         }
-        System.out.println("Tempo 2: " + (timetemp - System.currentTimeMillis()));
+        System.out.println("Tempo 2: " + (System.currentTimeMillis() - (timetemp)));
     }
 
     private static List<Long> fileSum(String filePath) throws IOException {
